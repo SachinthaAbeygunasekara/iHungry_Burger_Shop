@@ -6,7 +6,7 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.plaf.basic.BasicButtonUI;
+import util.RoundedButton;
 
 /**
  *
@@ -32,11 +32,11 @@ public class HomePageForm extends javax.swing.JFrame {
         });
 
         // Add a rounded buttons
-        makeButtonRounded(btnPlaceOrder, 40, new Color(208, 73, 70), Color.WHITE);
-        makeButtonRounded(btnSearch, 40, new Color(208, 73, 70), Color.WHITE);
-        makeButtonRounded(btnViewOrders, 40, new Color(208, 73, 70), Color.WHITE);
-        makeButtonRounded(btnUpdateOrder, 40, new Color(208, 73, 70), Color.WHITE);
-        makeButtonRounded(btnExit, 35, new Color(208, 73, 70), Color.WHITE);
+        RoundedButton.makeButtonRounded(btnPlaceOrder, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedButton.makeButtonRounded(btnSearch, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedButton.makeButtonRounded(btnViewOrders, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedButton.makeButtonRounded(btnUpdateOrder, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedButton.makeButtonRounded(btnExit, 35, new Color(208, 73, 70), Color.WHITE);
 
     }
 
@@ -59,6 +59,7 @@ public class HomePageForm extends javax.swing.JFrame {
         lblTitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(560, 290));
         setPreferredSize(new java.awt.Dimension(850, 545));
         setResizable(false);
 
@@ -218,32 +219,6 @@ public class HomePageForm extends javax.swing.JFrame {
 
         Image img = icon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
         label.setIcon(new ImageIcon(img));
-    }
-
-    private void makeButtonRounded(JButton button, int radius, Color bgColor, Color fgColor) {
-        button.setBackground(bgColor);
-        button.setForeground(fgColor);
-        button.setFocusPainted(false);
-        button.setContentAreaFilled(false);
-        button.setBorderPainted(false);
-        button.setOpaque(false);
-
-        button.setUI(new BasicButtonUI() {
-            @Override
-            public void update(Graphics g, JComponent c) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Fill background rounded only
-                g2.setColor(bgColor);
-                g2.fillRoundRect(0, 0, c.getWidth(), c.getHeight(), radius, radius);
-
-                g2.dispose();
-
-                // Paint the button text ONLY
-                super.paint(g, c);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
