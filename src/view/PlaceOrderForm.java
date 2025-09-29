@@ -4,9 +4,12 @@
  */
 package view;
 
+import controller.OrderController;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import util.RoundedButton;
 import util.RoundedJTextFiled;
+import model.Order;
 
 /**
  *
@@ -14,17 +17,23 @@ import util.RoundedJTextFiled;
  */
 public class PlaceOrderForm extends javax.swing.JFrame {
 
+    OrderController orderController = new OrderController();
+
     /**
      * Creates new form PlaceOrderForm
      */
     public PlaceOrderForm() {
         initComponents();
+        setLocationRelativeTo(null);
 
         RoundedButton.makeButtonRounded(btnPlaceOrder, 40, new Color(1, 177, 59), Color.WHITE);
         RoundedButton.makeButtonRounded(btnBackToHome, 40, new Color(208, 73, 70), Color.WHITE);
         RoundedButton.makeButtonRounded(btnCancel, 40, new Color(208, 73, 70), Color.WHITE);
         RoundedJTextFiled.makeTextFieldRounded(txtCustomerId, 15, Color.WHITE, Color.GRAY);
         RoundedJTextFiled.makeTextFieldRounded(txtQty, 15, Color.WHITE, Color.GRAY);
+
+        txtOrderId.setText(orderController.generateOrderId());
+        txtCustomerId.setText(orderController.generateCustomerId());
 
     }
 
@@ -55,7 +64,7 @@ public class PlaceOrderForm extends javax.swing.JFrame {
         txtNetTotal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setLocation(new java.awt.Point(560, 290));
+        setLocation(new java.awt.Point(0, 0));
         setPreferredSize(new java.awt.Dimension(845, 540));
 
         jPanel1.setBackground(new java.awt.Color(208, 72, 74));
@@ -82,18 +91,33 @@ public class PlaceOrderForm extends javax.swing.JFrame {
         lblOrderId.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         lblOrderId.setText("Order Id : ");
 
-        txtOrderId.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        txtOrderId.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
 
         lblCustomerId.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         lblCustomerId.setText("Customer Id :");
 
+        txtCustomerId.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+
         lblQty.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         lblQty.setText("Burger QTY :");
+
+        txtQty.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txtQty.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtQtyActionPerformed(evt);
+            }
+        });
+        txtQty.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtQtyKeyReleased(evt);
+            }
+        });
 
         lblStatus.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         lblStatus.setText("Order Status : ");
 
-        txtStatus.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        txtStatus.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txtStatus.setText("Pending..");
 
         btnCancel.setBackground(new java.awt.Color(208, 73, 70));
         btnCancel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -217,50 +241,56 @@ public class PlaceOrderForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        new PlaceOrderForm().setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlaceOrderActionPerformed
-        // TODO add your handling code here:
+
+        if (!txtQty.getText().equals("")) {
+            String orderId = txtOrderId.getText();
+            String customerId = txtCustomerId.getText();
+            int qty = Integer.parseInt(txtQty.getText());
+            double amount = Double.parseDouble(txtNetTotal.getText());
+
+            if (qty > 0) {
+                Order order = new Order(orderId, customerId, "Sachintha", qty, amount, orderController.getOrderStatus(0));
+                if (orderController.addOrder(order)) {
+                    JOptionPane.showMessageDialog(this, "Order Added Sucessfully");
+                    resetForm();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Order Not Added");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Enter the Quantity greater than 0..!");
+                resetForm();
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Please enter the quantity");
+        }
     }//GEN-LAST:event_btnPlaceOrderActionPerformed
 
     private void btnBackToHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackToHomeActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_btnBackToHomeActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PlaceOrderForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PlaceOrderForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PlaceOrderForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PlaceOrderForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void txtQtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQtyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtQtyActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PlaceOrderForm().setVisible(true);
-            }
-        });
+    private void txtQtyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtyKeyReleased
+        try {
+            int qty = Integer.parseInt(txtQty.getText());
+            double total = qty * Order.BURGERPRICE;
+            txtNetTotal.setText(String.format("%.2f", total));
+        } catch (NumberFormatException e) {
+            txtNetTotal.setText("0.00");
+        }
+    }//GEN-LAST:event_txtQtyKeyReleased
+
+    private void resetForm() {
+        txtOrderId.setText(orderController.generateOrderId());
+        txtCustomerId.setText(orderController.generateCustomerId());
+        txtQty.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
