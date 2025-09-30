@@ -13,7 +13,6 @@ import model.Order;
 public class OrderController {
 
     private Order[] orderArray = new Order[0];
-    private String[] orderStatuses = {"Preparing", "Delivered", "Cancelled"};
 
     private void extendOrderArray() {
         Order[] tempOrderArray = new Order[orderArray.length + 1];
@@ -85,11 +84,29 @@ public class OrderController {
         return -1;
     }
 
+    public int searchIndex(String searchKey, String field) {
+        for (int i = 0; i < orderArray.length; i++) {
+            switch (field.toLowerCase()) {
+                case "id":
+                    if (orderArray[i].getId().equalsIgnoreCase(searchKey)) {
+                        return i;
+                    }
+                    break;
+                case "customerid":
+                    if (orderArray[i].getCustomerId().equalsIgnoreCase(searchKey)) {
+                        return i;
+                    }
+                    break;
+            }
+        }
+        return -1;
+    }
+
     public String getOrderStatus(int orderStatus) {
         String status = "";
         switch (orderStatus) {
             case 0:
-                status = "Preparing";
+                status = "Pending";
                 break;
             case 1:
                 status = "Delivered";
