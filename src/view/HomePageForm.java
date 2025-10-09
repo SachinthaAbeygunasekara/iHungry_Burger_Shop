@@ -20,6 +20,7 @@ public class HomePageForm extends javax.swing.JFrame {
     private PlaceOrderForm placeOrderForm;
     private SearchForm searchForm;
     private ViewOrdersForm viewOrdersForm;
+    private UpdateOrderForm updateOrderForm;
 
     /**
      * Creates new form HomePageForm
@@ -219,7 +220,12 @@ public class HomePageForm extends javax.swing.JFrame {
     }
 
     private void btnUpdateOrderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUpdateOrderActionPerformed
-
+        if (updateOrderForm == null || !updateOrderForm.isDisplayable()) {
+            updateOrderForm = new UpdateOrderForm(orderController);
+            updateOrderForm.setVisible(true);
+        } else {
+            updateOrderForm.toFront();
+        }
     }// GEN-LAST:event_btnUpdateOrderActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnExitActionPerformed
