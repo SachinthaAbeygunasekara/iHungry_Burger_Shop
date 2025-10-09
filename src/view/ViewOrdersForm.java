@@ -18,6 +18,7 @@ public class ViewOrdersForm extends javax.swing.JFrame {
     private OrderController orderController;
     private DeliveredOrdersForm deliveredOrdersForm;
     private ProcessingOrdersForm processingOrdersForm;
+    private CancelledOrdersForm cancelledOrdersForm;
 
     /**
      * Creates new form HomePageForm
@@ -220,7 +221,12 @@ public class ViewOrdersForm extends javax.swing.JFrame {
     }
 
     private void btnCanceledOrdersActionPerformed(java.awt.event.ActionEvent evt) {
-
+        if (cancelledOrdersForm == null || !cancelledOrdersForm.isDisplayable()) {
+            cancelledOrdersForm = new CancelledOrdersForm(orderController);
+            cancelledOrdersForm.setVisible(true);
+        } else {
+            cancelledOrdersForm.toFront();
+        }
     }
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnExitActionPerformed
