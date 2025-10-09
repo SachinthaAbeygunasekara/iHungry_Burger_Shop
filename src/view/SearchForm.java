@@ -17,6 +17,7 @@ public class SearchForm extends javax.swing.JFrame {
 
     private OrderController orderController;
     private SearchBestCustomerForm searchBestCustomerForm;
+    private SearchOrderDetailsForm searchOrderDetailsForm;
 
     /**
      * Creates new form HomePageForm
@@ -210,7 +211,12 @@ public class SearchForm extends javax.swing.JFrame {
     }
 
     private void btnSearchOrderActionPerformed(java.awt.event.ActionEvent evt) {
-
+        if (searchOrderDetailsForm == null || !searchOrderDetailsForm.isDisplayable()) {
+            searchOrderDetailsForm = new SearchOrderDetailsForm(orderController);
+            searchOrderDetailsForm.setVisible(true);
+        } else {
+            searchOrderDetailsForm.toFront();
+        }
     }
 
     private void btnSearchCustomerActionPerformed(java.awt.event.ActionEvent evt) {
