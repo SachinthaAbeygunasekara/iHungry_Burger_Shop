@@ -17,23 +17,27 @@ import model.Order;
  */
 public class PlaceOrderForm extends javax.swing.JFrame {
 
-    OrderController orderController = new OrderController();
+    private OrderController orderController;
 
     /**
      * Creates new form PlaceOrderForm
+     *
+     * @param orderController
      */
-    public PlaceOrderForm() {
+    public PlaceOrderForm(OrderController orderController) {
         initComponents();
         setLocationRelativeTo(null);
+        this.orderController = orderController;
 
         RoundedButton.makeButtonRounded(btnPlaceOrder, 40, new Color(1, 177, 59), Color.WHITE);
         RoundedButton.makeButtonRounded(btnBackToHome, 40, new Color(208, 73, 70), Color.WHITE);
         RoundedButton.makeButtonRounded(btnCancel, 40, new Color(208, 73, 70), Color.WHITE);
         RoundedJTextFiled.makeTextFieldRounded(txtCustomerId, 15, Color.WHITE, Color.GRAY);
         RoundedJTextFiled.makeTextFieldRounded(txtQty, 15, Color.WHITE, Color.GRAY);
+        RoundedJTextFiled.makeTextFieldRounded(txtCustomerName, 15, Color.WHITE, Color.GRAY);
 
         txtOrderId.setText(orderController.generateOrderId());
-        txtCustomerId.setText(orderController.generateCustomerId());
+//        txtCustomerId.setText(orderController.generateCustomerId());
 
     }
 
@@ -62,10 +66,11 @@ public class PlaceOrderForm extends javax.swing.JFrame {
         btnBackToHome = new javax.swing.JButton();
         lblNetTotal = new javax.swing.JLabel();
         txtNetTotal = new javax.swing.JLabel();
+        lblCustomerName = new javax.swing.JLabel();
+        txtCustomerName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
-        setPreferredSize(new java.awt.Dimension(845, 540));
 
         jPanel1.setBackground(new java.awt.Color(208, 72, 74));
 
@@ -97,6 +102,11 @@ public class PlaceOrderForm extends javax.swing.JFrame {
         lblCustomerId.setText("Customer Id :");
 
         txtCustomerId.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txtCustomerId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCustomerIdKeyReleased(evt);
+            }
+        });
 
         lblQty.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         lblQty.setText("Burger QTY :");
@@ -155,6 +165,21 @@ public class PlaceOrderForm extends javax.swing.JFrame {
         txtNetTotal.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         txtNetTotal.setForeground(new java.awt.Color(208, 73, 70));
 
+        lblCustomerName.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        lblCustomerName.setText("Customer Name : ");
+
+        txtCustomerName.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txtCustomerName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCustomerNameActionPerformed(evt);
+            }
+        });
+        txtCustomerName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCustomerNameKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -172,7 +197,11 @@ public class PlaceOrderForm extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblCustomerId)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCustomerId, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtCustomerId, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblCustomerName)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(86, 86, 86)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,8 +215,8 @@ public class PlaceOrderForm extends javax.swing.JFrame {
                                 .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(53, 53, 53)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPlaceOrder, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -214,7 +243,11 @@ public class PlaceOrderForm extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblCustomerId, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCustomerId, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCustomerName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(23, 23, 23)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -246,27 +279,53 @@ public class PlaceOrderForm extends javax.swing.JFrame {
 
     private void btnPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlaceOrderActionPerformed
 
-        if (!txtQty.getText().equals("")) {
-            String orderId = txtOrderId.getText();
-            String customerId = txtCustomerId.getText();
-            int qty = Integer.parseInt(txtQty.getText());
-            double amount = Double.parseDouble(txtNetTotal.getText());
+        String customerId = txtCustomerId.getText().trim();
+        String customerName = txtCustomerName.getText().trim();
+        String qtyText = txtQty.getText().trim();
+        String orderId = txtOrderId.getText().trim();
 
-            if (qty > 0) {
-                Order order = new Order(orderId, customerId, "Sachintha", qty, amount, orderController.getOrderStatus(0));
-                if (orderController.addOrder(order)) {
-                    JOptionPane.showMessageDialog(this, "Order Added Sucessfully");
-                    resetForm();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Order Not Added");
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Enter the Quantity greater than 0..!");
-                resetForm();
-            }
-        }else{
-            JOptionPane.showMessageDialog(this, "Please enter the quantity");
+        if (customerId.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Customer ID is required!");
+            return;
         }
+        if (!customerId.matches("^C\\d{3}$")) {
+            JOptionPane.showMessageDialog(this, "Invalid Customer ID! Format must be C001 - C999");
+            return;
+        }
+
+        if (customerName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Customer name is required. Please enter the customer name.");
+            return;
+        }
+
+        if (qtyText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the quantity");
+            return;
+        }
+
+        int qty;
+        try {
+            qty = Integer.parseInt(qtyText);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Quantity must be a number!");
+            return;
+        }
+
+        if (qty <= 0) {
+            JOptionPane.showMessageDialog(this, "Enter a quantity greater than 0!");
+            return;
+        }
+
+        double amount = Double.parseDouble(txtNetTotal.getText());
+
+        Order order = new Order(orderId, customerId, customerName, qty, amount, orderController.getOrderStatus(0));
+        if (orderController.addOrder(order)) {
+            JOptionPane.showMessageDialog(this, "Order Added Successfully");
+            resetForm();
+        } else {
+            JOptionPane.showMessageDialog(this, "Order Not Added");
+        }
+
     }//GEN-LAST:event_btnPlaceOrderActionPerformed
 
     private void btnBackToHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackToHomeActionPerformed
@@ -287,10 +346,44 @@ public class PlaceOrderForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtQtyKeyReleased
 
+    private void txtCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCustomerNameActionPerformed
+
+    private void txtCustomerNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCustomerNameKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCustomerNameKeyReleased
+
+    private void txtCustomerIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCustomerIdKeyReleased
+        String customerId = txtCustomerId.getText();
+        String customerName = "";
+
+        Order[] orderArray = orderController.getAllOrders();
+        for (int i = 0; i < orderArray.length; i++) {
+            if (orderArray[i].getCustomerId().equals(customerId)) {
+                customerName = orderArray[i].getCustomerName();
+                break;
+            }
+        }
+
+        if (!("".equals(customerName))) {
+            txtCustomerName.setText(customerName);
+            txtCustomerName.setEditable(false);
+        } else {
+            txtCustomerName.setText("");
+            txtCustomerName.setEditable(true);
+        }
+
+
+    }//GEN-LAST:event_txtCustomerIdKeyReleased
+
     private void resetForm() {
         txtOrderId.setText(orderController.generateOrderId());
-        txtCustomerId.setText(orderController.generateCustomerId());
+        txtCustomerId.setText("");
+        txtCustomerName.setText("");
+        txtCustomerName.setEditable(true);
         txtQty.setText("");
+        txtNetTotal.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -301,11 +394,13 @@ public class PlaceOrderForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblCustomerId;
+    private javax.swing.JLabel lblCustomerName;
     private javax.swing.JLabel lblNetTotal;
     private javax.swing.JLabel lblOrderId;
     private javax.swing.JLabel lblQty;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JTextField txtCustomerId;
+    private javax.swing.JTextField txtCustomerName;
     private javax.swing.JLabel txtNetTotal;
     private javax.swing.JLabel txtOrderId;
     private javax.swing.JTextField txtQty;
