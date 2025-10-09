@@ -16,7 +16,7 @@ import util.RoundedButton;
 public class SearchForm extends javax.swing.JFrame {
 
     private OrderController orderController;
-
+    private SearchBestCustomerForm searchBestCustomerForm;
 
     /**
      * Creates new form HomePageForm
@@ -201,7 +201,12 @@ public class SearchForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchBestCustomerActionPerformed(java.awt.event.ActionEvent evt) {
-
+        if (searchBestCustomerForm == null || !searchBestCustomerForm.isDisplayable()) {
+            searchBestCustomerForm = new SearchBestCustomerForm(orderController);
+            searchBestCustomerForm.setVisible(true);
+        } else {
+            searchBestCustomerForm.toFront();
+        }
     }
 
     private void btnSearchOrderActionPerformed(java.awt.event.ActionEvent evt) {
