@@ -28,6 +28,12 @@ public class Order {
         this.status = status;
     }
 
+    public Order(String customerId, String customerName, double amount) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.amount = amount;
+    }
+
     public String getId() {
         return id;
     }
