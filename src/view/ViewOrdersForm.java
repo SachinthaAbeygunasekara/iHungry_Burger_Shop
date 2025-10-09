@@ -16,7 +16,7 @@ import util.RoundedButton;
 public class ViewOrdersForm extends javax.swing.JFrame {
 
     private OrderController orderController;
-
+    private DeliveredOrdersForm deliveredOrdersForm;
 
     /**
      * Creates new form HomePageForm
@@ -201,7 +201,12 @@ public class ViewOrdersForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeliveredOrdersActionPerformed(java.awt.event.ActionEvent evt) {
-
+        if (deliveredOrdersForm == null || !deliveredOrdersForm.isDisplayable()) {
+            deliveredOrdersForm = new DeliveredOrdersForm(orderController);
+            deliveredOrdersForm.setVisible(true);
+        } else {
+            deliveredOrdersForm.toFront();
+        }
     }
 
     private void btnProcessingOrdersActionPerformed(java.awt.event.ActionEvent evt) {
