@@ -13,21 +13,20 @@ import util.RoundedButton;
  *
  * @author Sachintha
  */
-public class HomePageForm extends javax.swing.JFrame {
+public class ViewOrdersForm extends javax.swing.JFrame {
 
     private OrderController orderController;
 
-    private PlaceOrderForm placeOrderForm;
-    private SearchForm searchForm;
-    private ViewOrdersForm viewOrdersForm;
 
     /**
      * Creates new form HomePageForm
+     *
+     * @param orderController
      */
-    public HomePageForm() {
+    public ViewOrdersForm(OrderController orderController) {
         initComponents();
         setLocationRelativeTo(null);
-        orderController = new OrderController();
+        this.orderController = orderController;
 
         setScaledImageToLabel(lblLogo, "/images/logo.png");
 
@@ -38,10 +37,9 @@ public class HomePageForm extends javax.swing.JFrame {
             }
         });
 
-        RoundedButton.makeButtonRounded(btnPlaceOrder, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnSearch, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnViewOrders, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnUpdateOrder, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedButton.makeButtonRounded(btnDeliveredOrders, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedButton.makeButtonRounded(btnProcessingOrders, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedButton.makeButtonRounded(btnCanceledOrders, 40, new Color(208, 73, 70), Color.WHITE);
         RoundedButton.makeButtonRounded(btnExit, 35, new Color(208, 73, 70), Color.WHITE);
 
     }
@@ -58,57 +56,48 @@ public class HomePageForm extends javax.swing.JFrame {
 
         lblLogo = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        btnPlaceOrder = new javax.swing.JButton();
-        btnSearch = new javax.swing.JButton();
-        btnViewOrders = new javax.swing.JButton();
-        btnUpdateOrder = new javax.swing.JButton();
+        btnDeliveredOrders = new javax.swing.JButton();
+        btnProcessingOrders = new javax.swing.JButton();
+        btnCanceledOrders = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         lblTitle = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setLocation(new java.awt.Point(0, 0));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocation(new java.awt.Point(560, 290));
         setPreferredSize(new java.awt.Dimension(850, 545));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
-        btnPlaceOrder.setBackground(new java.awt.Color(208, 73, 70));
-        btnPlaceOrder.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnPlaceOrder.setForeground(new java.awt.Color(255, 255, 255));
-        btnPlaceOrder.setText("Place Order");
-        btnPlaceOrder.addActionListener(new java.awt.event.ActionListener() {
+        btnDeliveredOrders.setBackground(new java.awt.Color(208, 73, 70));
+        btnDeliveredOrders.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnDeliveredOrders.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeliveredOrders.setText("Delivered Orders");
+        btnDeliveredOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPlaceOrderActionPerformed(evt);
+                btnDeliveredOrdersActionPerformed(evt);
             }
         });
 
-        btnSearch.setBackground(new java.awt.Color(208, 73, 70));
-        btnSearch.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnSearch.setForeground(new java.awt.Color(255, 255, 255));
-        btnSearch.setText("Search");
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+        btnProcessingOrders.setBackground(new java.awt.Color(208, 73, 70));
+        btnProcessingOrders.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnProcessingOrders.setForeground(new java.awt.Color(255, 255, 255));
+        btnProcessingOrders.setText("Processing Orders");
+        btnProcessingOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
+                btnProcessingOrdersActionPerformed(evt);
             }
         });
 
-        btnViewOrders.setBackground(new java.awt.Color(208, 73, 70));
-        btnViewOrders.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnViewOrders.setForeground(new java.awt.Color(255, 255, 255));
-        btnViewOrders.setText("View Orders");
-        btnViewOrders.addActionListener(new java.awt.event.ActionListener() {
+        btnCanceledOrders.setBackground(new java.awt.Color(208, 73, 70));
+        btnCanceledOrders.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnCanceledOrders.setForeground(new java.awt.Color(255, 255, 255));
+        btnCanceledOrders.setText("Canceled Orders");
+        btnCanceledOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewOrdersActionPerformed(evt);
-            }
-        });
-
-        btnUpdateOrder.setBackground(new java.awt.Color(208, 73, 70));
-        btnUpdateOrder.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnUpdateOrder.setForeground(new java.awt.Color(255, 255, 255));
-        btnUpdateOrder.setText("Update Order Details");
-        btnUpdateOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateOrderActionPerformed(evt);
+                btnCanceledOrdersActionPerformed(evt);
             }
         });
 
@@ -122,6 +111,27 @@ public class HomePageForm extends javax.swing.JFrame {
             }
         });
 
+        jPanel2.setBackground(new java.awt.Color(208, 73, 70));
+
+        jLabel1.setFont(new java.awt.Font("Calibri", 1, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("View Orders");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -131,27 +141,26 @@ public class HomePageForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnPlaceOrder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnViewOrders, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnUpdateOrder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnDeliveredOrders, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnProcessingOrders, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCanceledOrders, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(97, 97, 97))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28))))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addComponent(btnPlaceOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(102, 102, 102)
+                .addComponent(btnDeliveredOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnProcessingOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(btnViewOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btnUpdateOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
+                .addComponent(btnCanceledOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );
@@ -183,7 +192,7 @@ public class HomePageForm extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
                 .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64))
         );
@@ -191,36 +200,17 @@ public class HomePageForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPlaceOrderActionPerformed
-        if (placeOrderForm == null || !placeOrderForm.isDisplayable()) {
-            placeOrderForm = new PlaceOrderForm(orderController);
-            placeOrderForm.setVisible(true);
-        } else {
-            placeOrderForm.toFront();
-        }
-    }// GEN-LAST:event_btnPlaceOrderActionPerformed
+    private void btnDeliveredOrdersActionPerformed(java.awt.event.ActionEvent evt) {
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSearchActionPerformed
-        if (searchForm == null || !searchForm.isDisplayable()) {
-            searchForm = new SearchForm(orderController);
-            searchForm.setVisible(true);
-        } else {
-            searchForm.toFront();
-        }
-    }// GEN-LAST:event_btnSearchActionPerformed
-
-    private void btnViewOrdersActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnViewOrdersActionPerformed
-        if (viewOrdersForm == null || !viewOrdersForm.isDisplayable()) {
-            viewOrdersForm = new ViewOrdersForm(orderController);
-            viewOrdersForm.setVisible(true);
-        } else {
-            viewOrdersForm.toFront();
-        }
     }
 
-    private void btnUpdateOrderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUpdateOrderActionPerformed
+    private void btnProcessingOrdersActionPerformed(java.awt.event.ActionEvent evt) {
 
-    }// GEN-LAST:event_btnUpdateOrderActionPerformed
+    }
+
+    private void btnCanceledOrdersActionPerformed(java.awt.event.ActionEvent evt) {
+
+    }
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnExitActionPerformed
         dispose();
@@ -244,12 +234,13 @@ public class HomePageForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCanceledOrders;
+    private javax.swing.JButton btnDeliveredOrders;
     private javax.swing.JButton btnExit;
-    private javax.swing.JButton btnPlaceOrder;
-    private javax.swing.JButton btnSearch;
-    private javax.swing.JButton btnUpdateOrder;
-    private javax.swing.JButton btnViewOrders;
+    private javax.swing.JButton btnProcessingOrders;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblTitle;
     // End of variables declaration//GEN-END:variables
