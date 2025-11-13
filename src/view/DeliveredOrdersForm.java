@@ -19,18 +19,17 @@ import util.RoundedButton;
  * @author Sachintha
  */
 public class DeliveredOrdersForm extends javax.swing.JFrame {
-
-    private OrderController orderController;
+    
+    private final OrderController orderController;
 
     /**
      * Creates new form PlaceOrderForm
      *
-     * @param orderController
      */
-    public DeliveredOrdersForm(OrderController orderController) {
+    public DeliveredOrdersForm() {
         initComponents();
         setLocationRelativeTo(null);
-        this.orderController = orderController;
+        orderController = new OrderController();
 
         RoundedButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
 
@@ -44,10 +43,10 @@ public class DeliveredOrdersForm extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tblMain.getModel();
         model.setRowCount(0);
 
-        Order[] orders = orderController.getAllOrders();
+        Order[] orders = orderController.getOrdersAsArray();
 
         for (int i = 0; i < orders.length; i++) {
-            if (orders[i].getStatus().equals(orderController.getOrderStatus(1))) {
+            if (orders[i].getStatus().equals(Order.getOrderStatus(1))) {
                 Object[] rowData = {orders[i].getId(), orders[i].getCustomerId(), orders[i].getCustomerName(), orders[i].getQuantity(), String.format("%.2f", orders[i].getAmount())};
                 model.addRow(rowData);
             }

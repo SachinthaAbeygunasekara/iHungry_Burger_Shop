@@ -21,17 +21,15 @@ import util.RoundedButton;
  */
 public class SearchBestCustomerForm extends javax.swing.JFrame {
 
-    private OrderController orderController;
-
+    private final OrderController orderController;
     /**
      * Creates new form PlaceOrderForm
      *
-     * @param orderController
      */
-    public SearchBestCustomerForm(OrderController orderController) {
+    public SearchBestCustomerForm() {
         initComponents();
         setLocationRelativeTo(null);
-        this.orderController = orderController;
+        orderController = new OrderController();
 
         RoundedButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
 
@@ -56,7 +54,7 @@ public class SearchBestCustomerForm extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tblMain.getModel();
         model.setRowCount(0);
 
-        Order[] uniqueOrders = searchBestCustomer(orderController.getAllOrders());
+        Order[] uniqueOrders = searchBestCustomer(orderController.getOrdersAsArray());
 
         for (int i = 0; i < uniqueOrders.length; i++) {
                 Object[] rowData = {uniqueOrders[i].getCustomerId(), uniqueOrders[i].getCustomerName(), String.format("%.2f", uniqueOrders[i].getAmount())};

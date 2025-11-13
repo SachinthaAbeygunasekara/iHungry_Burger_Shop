@@ -81,5 +81,21 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
+    
+    public static String getOrderStatus(int orderStatus) {
+        String status = "";
+        switch (orderStatus) {
+            case 0:
+                status = "Pending";
+                break;
+            case 1:
+                status = "Delivered";
+                break;
+            case 2:
+                status = "Cancelled";
+                break;
+        }
+        return status;
+    }
 
 }

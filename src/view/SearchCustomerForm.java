@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.Order;
+import util.OrderList;
 import util.RoundedButton;
 import util.RoundedJTextFiled;
 
@@ -22,18 +23,20 @@ import util.RoundedJTextFiled;
  */
 public class SearchCustomerForm extends javax.swing.JFrame {
 
-    private OrderController orderController;
-    private DefaultTableModel model;
+    private final OrderController orderController;
+    private final DefaultTableModel model;
+    private final OrderList orderList;
+    private Order order;
 
     /**
      * Creates new form PlaceOrderForm
      *
-     * @param orderController
      */
-    public SearchCustomerForm(OrderController orderController) {
+    public SearchCustomerForm() {
         initComponents();
         setLocationRelativeTo(null);
-        this.orderController = orderController;
+        orderController = new OrderController();
+        orderList = orderController.getAllOrders();
 
         RoundedButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
         RoundedJTextFiled.makeTextFieldRounded(txtCustomerId, 15, Color.WHITE, Color.GRAY);
@@ -238,17 +241,22 @@ public class SearchCustomerForm extends javax.swing.JFrame {
 
     public void searchCustomer(String customerId) {
 
-        int index = orderController.searchIndex(customerId, "customerId");
+        model.setRowCount(0);
+        Order[] orders = orderController.getOrdersAsArray();
 
-        if (index != -1) {
+        for (Order o : orders) {
+            if (o.getCustomerId().equals(customerId)) {
+                order = o;
+                break;
+            }
+        }
 
-            Order[] orders = orderController.getAllOrders();
-
-            txtName.setText(orders[index].getCustomerName());
+        if (order != null) {
+            txtName.setText(order.getCustomerName());
 
             for (int i = 0; i < orders.length; i++) {
                 if (orders[i].getCustomerId().equals(customerId)) {
-                    Object[] rowData = {orders[i].getId(),orders[i].getQuantity(), String.format("%.2f", orders[i].getAmount())};
+                    Object[] rowData = {orders[i].getId(), orders[i].getQuantity(), String.format("%.2f", orders[i].getAmount())};
                     model.addRow(rowData);
                 }
             }
@@ -259,7 +267,7 @@ public class SearchCustomerForm extends javax.swing.JFrame {
             for (int i = 0; i < tblMain.getColumnCount(); i++) {
                 tblMain.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
             }
-        }else{
+        } else {
             txtName.setText("");
             model.setRowCount(0);
         }

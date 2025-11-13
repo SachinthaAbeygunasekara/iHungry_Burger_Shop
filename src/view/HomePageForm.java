@@ -4,7 +4,6 @@
  */
 package view;
 
-import controller.OrderController;
 import javax.swing.*;
 import java.awt.*;
 import util.RoundedButton;
@@ -15,11 +14,10 @@ import util.RoundedButton;
  */
 public class HomePageForm extends javax.swing.JFrame {
 
-    private OrderController orderController;
-
     private PlaceOrderForm placeOrderForm;
-    private SearchForm searchForm;
     private ViewOrdersForm viewOrdersForm;
+    private SearchForm searchForm;
+    private UpdateOrderForm updateOrderForm;
 
     /**
      * Creates new form HomePageForm
@@ -27,7 +25,6 @@ public class HomePageForm extends javax.swing.JFrame {
     public HomePageForm() {
         initComponents();
         setLocationRelativeTo(null);
-        orderController = new OrderController();
 
         setScaledImageToLabel(lblLogo, "/images/logo.png");
 
@@ -193,7 +190,7 @@ public class HomePageForm extends javax.swing.JFrame {
 
     private void btnPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPlaceOrderActionPerformed
         if (placeOrderForm == null || !placeOrderForm.isDisplayable()) {
-            placeOrderForm = new PlaceOrderForm(orderController);
+            placeOrderForm = new PlaceOrderForm();
             placeOrderForm.setVisible(true);
         } else {
             placeOrderForm.toFront();
@@ -202,7 +199,7 @@ public class HomePageForm extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSearchActionPerformed
         if (searchForm == null || !searchForm.isDisplayable()) {
-            searchForm = new SearchForm(orderController);
+            searchForm = new SearchForm();
             searchForm.setVisible(true);
         } else {
             searchForm.toFront();
@@ -211,7 +208,7 @@ public class HomePageForm extends javax.swing.JFrame {
 
     private void btnViewOrdersActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnViewOrdersActionPerformed
         if (viewOrdersForm == null || !viewOrdersForm.isDisplayable()) {
-            viewOrdersForm = new ViewOrdersForm(orderController);
+            viewOrdersForm = new ViewOrdersForm();
             viewOrdersForm.setVisible(true);
         } else {
             viewOrdersForm.toFront();
@@ -219,7 +216,12 @@ public class HomePageForm extends javax.swing.JFrame {
     }
 
     private void btnUpdateOrderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUpdateOrderActionPerformed
-
+        if (updateOrderForm == null || !updateOrderForm.isDisplayable()) {
+            updateOrderForm = new UpdateOrderForm();
+            updateOrderForm.setVisible(true);
+        } else {
+            updateOrderForm.toFront();
+        }
     }// GEN-LAST:event_btnUpdateOrderActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnExitActionPerformed
