@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.Order;
 import util.OrderList;
-import util.RoundedButton;
+import util.RoundedJButton;
 import util.RoundedJTextFiled;
 
 /**
@@ -23,10 +23,10 @@ import util.RoundedJTextFiled;
  */
 public class SearchCustomerForm extends javax.swing.JFrame {
 
-    private final OrderController orderController;
     private final DefaultTableModel model;
     private final OrderList orderList;
     private Order order;
+    private boolean isCustomerExists;
 
     /**
      * Creates new form PlaceOrderForm
@@ -35,10 +35,9 @@ public class SearchCustomerForm extends javax.swing.JFrame {
     public SearchCustomerForm() {
         initComponents();
         setLocationRelativeTo(null);
-        orderController = new OrderController();
-        orderList = orderController.getAllOrders();
+        orderList = OrderController.getAllOrders();
 
-        RoundedButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
         RoundedJTextFiled.makeTextFieldRounded(txtCustomerId, 15, Color.WHITE, Color.GRAY);
 
         JTableHeader header = tblMain.getTableHeader();
@@ -61,6 +60,13 @@ public class SearchCustomerForm extends javax.swing.JFrame {
 
         model = (DefaultTableModel) tblMain.getModel();
         model.setRowCount(0);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        for (int i = 0; i < tblMain.getColumnCount(); i++) {
+            tblMain.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
 
     }
 
@@ -233,45 +239,25 @@ public class SearchCustomerForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void txtCustomerIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCustomerIdKeyReleased
-        String customerId = txtCustomerId.getText();
-        searchCustomer(customerId);
-
-
-    }//GEN-LAST:event_txtCustomerIdKeyReleased
-
-    public void searchCustomer(String customerId) {
-
+        
         model.setRowCount(0);
-        Order[] orders = orderController.getOrdersAsArray();
+        String customerId = txtCustomerId.getText();
+        OrderList orderList = OrderController.getOrdersByCustomerId(customerId);
 
-        for (Order o : orders) {
-            if (o.getCustomerId().equals(customerId)) {
-                order = o;
-                break;
+        if (!orderList.isEmpty()) {
+            String customerName = "";
+            for (Order order : orderList.toArray()) {
+                Object[] rowData = {order.getId(), order.getQuantity(), String.format("%.2f", order.getAmount())};
+                model.addRow(rowData);
+                customerName = order.getCustomerName();
             }
-        }
-
-        if (order != null) {
-            txtName.setText(order.getCustomerName());
-
-            for (int i = 0; i < orders.length; i++) {
-                if (orders[i].getCustomerId().equals(customerId)) {
-                    Object[] rowData = {orders[i].getId(), orders[i].getQuantity(), String.format("%.2f", orders[i].getAmount())};
-                    model.addRow(rowData);
-                }
-            }
-
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-
-            for (int i = 0; i < tblMain.getColumnCount(); i++) {
-                tblMain.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-            }
+            txtName.setText(customerName);
         } else {
             txtName.setText("");
             model.setRowCount(0);
         }
-    }
+    }//GEN-LAST:event_txtCustomerIdKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;

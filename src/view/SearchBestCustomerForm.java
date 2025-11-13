@@ -13,7 +13,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.Order;
-import util.RoundedButton;
+import util.OrderList;
+import util.RoundedJButton;
 
 /**
  *
@@ -21,7 +22,6 @@ import util.RoundedButton;
  */
 public class SearchBestCustomerForm extends javax.swing.JFrame {
 
-    private final OrderController orderController;
     /**
      * Creates new form PlaceOrderForm
      *
@@ -29,9 +29,8 @@ public class SearchBestCustomerForm extends javax.swing.JFrame {
     public SearchBestCustomerForm() {
         initComponents();
         setLocationRelativeTo(null);
-        orderController = new OrderController();
 
-        RoundedButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
 
         JTableHeader header = tblMain.getTableHeader();
 
@@ -54,18 +53,18 @@ public class SearchBestCustomerForm extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tblMain.getModel();
         model.setRowCount(0);
 
-        Order[] uniqueOrders = searchBestCustomer(orderController.getOrdersAsArray());
-
-        for (int i = 0; i < uniqueOrders.length; i++) {
-                Object[] rowData = {uniqueOrders[i].getCustomerId(), uniqueOrders[i].getCustomerName(), String.format("%.2f", uniqueOrders[i].getAmount())};
-                model.addRow(rowData);
-        }
-
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
         for (int i = 0; i < tblMain.getColumnCount(); i++) {
             tblMain.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        OrderList uniqueOrderList = OrderController.getUniqueCustomersByAmountDesc();
+
+        for (Order order : uniqueOrderList.toArray()) {
+            Object[] rowData = {order.getCustomerId(), order.getCustomerName(), String.format("%.2f", order.getAmount())};
+            model.addRow(rowData);
         }
 
     }
@@ -164,48 +163,6 @@ public class SearchBestCustomerForm extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private Order[] searchBestCustomer(Order[] orders) {
-        Order[] uniqueOrderArray = new Order[0];
-
-        for (int i = 0; i < orders.length; i++) {
-            String currentCustomerId = orders[i].getCustomerId();
-            String currentName = orders[i].getCustomerName();
-
-            int index = -1;
-            for (int j = 0; j < uniqueOrderArray.length; j++) {
-                if (uniqueOrderArray[j].getCustomerId().equals(currentCustomerId)) {
-                    index = j;
-                    break;
-                }
-            }
-
-            if (index == -1) {
-
-                Order[] tempOrders = new Order[uniqueOrderArray.length + 1];
-
-                for (int k = 0; k < uniqueOrderArray.length; k++) {
-                    tempOrders[k] = uniqueOrderArray[k];
-                }
-                tempOrders[tempOrders.length - 1] = new Order(currentCustomerId,
-                        currentName, orders[i].getAmount());
-                uniqueOrderArray = tempOrders;
-            } else {
-                uniqueOrderArray[index].setAmount(uniqueOrderArray[index].getAmount() + orders[i].getAmount());
-            }
-        }
-
-        for (int i = 0; i < uniqueOrderArray.length - 1; i++) {
-            for (int j = i + 1; j < uniqueOrderArray.length; j++) {
-                if (uniqueOrderArray[i].getAmount() < uniqueOrderArray[j].getAmount()) {
-                    Order temp = uniqueOrderArray[i];
-                    uniqueOrderArray[i] = uniqueOrderArray[j];
-                    uniqueOrderArray[j] = temp;
-                }
-            }
-
-        }
-        return uniqueOrderArray;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;

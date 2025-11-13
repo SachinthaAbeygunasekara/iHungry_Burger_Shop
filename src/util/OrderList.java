@@ -1,148 +1,182 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package util;
 
 import model.Order;
 
-/**
- *
- * @author Sachintha
- */
 public class OrderList {
 
-    private Order[] orderArray;
-    private int nextIndex;
-    private double loadFact;
-    private int initSize;
+    private Node first;
 
-    public OrderList() {
-        nextIndex = 0;
-        loadFact = 0.5;
-        initSize = 100;
-        orderArray = new Order[initSize];
-    }
+    public boolean add(int index, Order order) {
+        if (index >= 0 && index <= size()) {
+            Node node = new Node(order);
 
-    public OrderList(int initSize, double loadFact) {
-        orderArray = new Order[initSize];
-        this.loadFact = loadFact;
-        nextIndex = 0;
-        this.initSize = initSize;
-    }
-
-    public boolean add(Order order) {
-        if (order == null) {
-            return false;
+            if (index == 0) {
+                node.next = first;
+                first = node;
+            } else {
+                Node temp = first;
+                int count = 0;
+                while (count < index - 1) {
+                    temp = temp.next;
+                    count++;
+                }
+                node.next = temp.next;
+                temp.next = node;
+            }
+            return true;
         }
-
-        if (nextIndex >= orderArray.length) {
-            extendsArray();
-        }
-        orderArray[nextIndex++] = order;
-        return true;
-    }
-
-    public boolean addLast(Order order) {
-        return add(order);
+        return false;
     }
 
     public boolean addFirst(Order order) {
         return add(0, order);
     }
 
-    public boolean add(int index, Order order) {
-        if (order == null || index < 0 || index > nextIndex) {
-            return false;
-        }
-
-        for (int i = nextIndex; i > index; i--) {
-            orderArray[i] = orderArray[i - 1];
-        }
-        orderArray[index] = order;
-        nextIndex++;
-        return true;
+    public boolean addLast(Order order) {
+        return add(size(), order);
     }
 
-    public void removeFirst() {
-        remove(0);
-    }
-
-    public void removeLast() {
-        remove(nextIndex - 1);
+    public boolean add(Order order) {
+        return addLast(order);
     }
 
     public boolean remove(int index) {
+        if (index >= 0 && index < size()) {
+            if (index == 0) {
+                first = first.next;
+            } else {
+                Node temp = first;
+                int count = 0;
+                while (count < index - 1) {
+                    temp = temp.next;
+                    count++;
+                }
+                temp.next = temp.next.next;
+                return true;
+            }
+        }
+        return false;
+    }
 
-        if (index < 0 || index > nextIndex) {
-            return false;
-        }
-        for (int i = index; i < nextIndex; i++) {
-            orderArray[i] = orderArray[i + 1];
-        }
-        nextIndex--;
-        return true;
+    public boolean removeFirst() {
+        return remove(0);
+    }
+
+    public boolean removeLast() {
+        return remove(size() - 1);
     }
 
     public Order get(int index) {
-        return index >= 0 && index < nextIndex ? orderArray[index] : null;
-    }
-
-    public void printList() {
-        System.out.print("[");
-        for (int i = 0; i < nextIndex; i++) {
-            System.out.print(orderArray[i] + ", ");
+        if (index >= 0 && index < size()) {
+            Node temp = first;
+            int count = 0;
+            while (count < index) {
+                temp = temp.next;
+                count++;
+            }
+            return temp.order;
         }
-        System.out.println(isEmpty() ? "empty]" : "\b\b]");
+        return null;
     }
 
-    private void extendsArray() {
-        Order[] tempDataArray = new Order[(int) (orderArray.length * (loadFact + 1))];
-        for (int i = 0; i < orderArray.length; i++) {
-            tempDataArray[i] = orderArray[i];
+    public Order getFirst() {
+        return get(0);
+    }
+
+    public Order getLast() {
+        return get(size() - 1);
+    }
+
+    public int indexOf(Order order) {
+        int index = 0;
+        Node temp = first;
+        while (temp != null) {
+            if (order.equals(temp.order)) {
+                return index;
+            }
+            index++;
+            temp = temp.next;
         }
-        orderArray = tempDataArray;
-    }
-
-    public boolean isEmpty() {
-        return nextIndex <= 0;
-    }
-
-    public int size() {
-        return nextIndex;
+        return -1;
     }
 
     public boolean contains(Order order) {
         return indexOf(order) != -1;
     }
 
-    public int indexOf(Order order) {
-        for (int i = 0; i < nextIndex; i++) {
-            if (orderArray[i] == order) {
-                return i;
-            }
+    public boolean remove(Order order) {
+        int index = indexOf(order);
+        return remove(index);
+    }
+
+    public int size() {
+        Node temp = first;
+        int count = 0;
+        while (temp != null) {
+            temp = temp.next;
+            count++;
         }
-        return -1;
+        return count;
+    }
+
+    public void printOrders() {
+        System.out.println("{");
+        Node temp = first;
+        while (temp != null) {
+            Order order = temp.order;
+            System.out.println(order.toString() + ", ");
+            temp = temp.next;
+        }
+        System.out.println(isEmpty() ? "{empty}" : "\b\b}");
+    }
+
+    public boolean isEmpty() {
+        return first == null;
     }
 
     public Order[] toArray() {
-        Order[] tempDataArray = new Order[nextIndex];
-        for (int i = 0; i < nextIndex; i++) {
-            tempDataArray[i] = orderArray[i];
+        Order[] array = new Order[size()];
+        Node temp = first;
+        int index = 0;
+
+        while (temp != null) {
+            array[index++] = temp.order;
+            temp = temp.next;
         }
-        return tempDataArray;
+        return array;
     }
 
-    public Order getLast() {
-        if (isEmpty()) {
-            return null;
+    public void sortByAmountDesc() {
+        if (first == null || first.next == null) {
+            return;
         }
-        return orderArray[nextIndex - 1];
+
+        boolean swapped;
+        do {
+            swapped = false;
+            Node current = first;
+
+            while (current.next != null) {
+                if (current.order.getAmount() < current.next.order.getAmount()) {
+                    // Swap the orders (not nodes)
+                    Order temp = current.order;
+                    current.order = current.next.order;
+                    current.next.order = temp;
+                    swapped = true;
+                }
+                current = current.next;
+            }
+        } while (swapped);
     }
 
-    public void clear() {
-        nextIndex = 0;
-        orderArray = new Order[initSize];
-    }
+    class Node {
 
+        private Order order;
+        private Node next;
+
+        public Node(Order order) {
+            this.order = order;
+            this.next = null;
+        }
+    }
 }

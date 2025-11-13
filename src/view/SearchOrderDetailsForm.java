@@ -6,8 +6,9 @@ package view;
 
 import controller.OrderController;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import model.Order;
-import util.RoundedButton;
+import util.RoundedJButton;
 import util.RoundedJTextFiled;
 
 /**
@@ -17,7 +18,6 @@ import util.RoundedJTextFiled;
 public class SearchOrderDetailsForm extends javax.swing.JFrame {
 
     private Order order;
-    private final OrderController orderController;
 
     /**
      * Creates new form PlaceOrderForm
@@ -26,9 +26,8 @@ public class SearchOrderDetailsForm extends javax.swing.JFrame {
     public SearchOrderDetailsForm() {
         initComponents();
         setLocationRelativeTo(null);
-        orderController = new OrderController();
 
-        RoundedButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
         RoundedJTextFiled.makeTextFieldRounded(txtOrderId, 15, Color.WHITE, Color.GRAY);
 
     }
@@ -234,13 +233,7 @@ public class SearchOrderDetailsForm extends javax.swing.JFrame {
     private void txtOrderIdKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtOrderIdKeyReleased
         order = null;
         String orderId = txtOrderId.getText();
-
-        for (Order o : orderController.getOrdersAsArray()) {
-            if (o.getId().equals(orderId)) {
-                order = o;
-                break;
-            }
-        }
+        order = OrderController.serachOrder(orderId);
 
         if (order != null) {
             txtCustomerId.setText(order.getCustomerId());

@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import javax.swing.JOptionPane;
 import model.Order;
 
@@ -23,16 +22,11 @@ public class OrderFileHandler {
 
     public static boolean saveOrder(Order order) {
         try (FileWriter fw = new FileWriter(FILE_NAME, true)) {
-            fw.write(order.getId() + ","
-                    + order.getCustomerId() + ","
-                    + order.getCustomerName() + ","
-                    + order.getQuantity() + ","
-                    + order.getAmount() + ","
-                    + order.getStatus() + "\n");
+            fw.write(order.toString() + "\n");
             fw.close();
             return true;
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.err.println("Error saving order: " + e.getMessage());
             return false;
         }
     }
@@ -48,7 +42,7 @@ public class OrderFileHandler {
             }
             br.close();
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            throw new RuntimeException("Failed to read orders", e);
         }
         return orderList;
     }
@@ -56,17 +50,12 @@ public class OrderFileHandler {
     public static boolean saveAll(OrderList orderList) {
         try (FileWriter fw = new FileWriter(FILE_NAME, false)) {
             for (Order o : orderList.toArray()) {
-                fw.write(o.getId() + ","
-                        + o.getCustomerId() + ","
-                        + o.getCustomerName() + ","
-                        + o.getQuantity() + ","
-                        + o.getAmount() + ","
-                        + o.getStatus() + "\n");
+                fw.write(o.toString() + "\n");
             }
             fw.close();
             return true;
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.err.println("Error saving orders: " + e.getMessage());
             return false;
         }
     }

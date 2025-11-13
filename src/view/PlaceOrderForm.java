@@ -6,11 +6,8 @@ package view;
 
 import controller.OrderController;
 import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
-import java.util.Scanner;
 import javax.swing.JOptionPane;
-import util.RoundedButton;
+import util.RoundedJButton;
 import util.RoundedJTextFiled;
 import model.Order;
 
@@ -21,7 +18,6 @@ import model.Order;
 public class PlaceOrderForm extends javax.swing.JFrame {
 
     private Order[] orderArray;
-    private final OrderController orderController;
 
     //private OrderController orderController;
     /**
@@ -31,16 +27,15 @@ public class PlaceOrderForm extends javax.swing.JFrame {
     public PlaceOrderForm() {
         initComponents();
         setLocationRelativeTo(null);
-        orderController = new OrderController();
         
-        RoundedButton.makeButtonRounded(btnPlaceOrder, 40, new Color(1, 177, 59), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnBackToHome, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnCancel, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnPlaceOrder, 40, new Color(1, 177, 59), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnBackToHome, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnCancel, 40, new Color(208, 73, 70), Color.WHITE);
         RoundedJTextFiled.makeTextFieldRounded(txtCustomerId, 15, Color.WHITE, Color.GRAY);
         RoundedJTextFiled.makeTextFieldRounded(txtQty, 15, Color.WHITE, Color.GRAY);
         RoundedJTextFiled.makeTextFieldRounded(txtCustomerName, 15, Color.WHITE, Color.GRAY);
 
-        txtOrderId.setText(generateOrderId());
+        txtOrderId.setText(OrderController.generateOrderId());
     }
 
     /**
@@ -323,7 +318,7 @@ public class PlaceOrderForm extends javax.swing.JFrame {
         int response = JOptionPane.showConfirmDialog(this, "Do you want to add this order?", "New Order", JOptionPane.YES_NO_OPTION);
         if (response == JOptionPane.YES_OPTION) {
             Order order = new Order(orderId, customerId, customerName, qty, amount, Order.getOrderStatus(0));
-              orderController.addOrder(order);
+              OrderController.addOrder(order);
         } else {
             resetForm();
             return;
@@ -365,7 +360,7 @@ public class PlaceOrderForm extends javax.swing.JFrame {
         String customerId = txtCustomerId.getText();
         String customerName = "";
 
-        orderArray = orderController.getOrdersAsArray();
+        orderArray = OrderController.getOrdersAsArray();
 
         for (int i = 0; i < orderArray.length; i++) {
             if (orderArray[i].getCustomerId().equals(customerId)) {
@@ -385,30 +380,12 @@ public class PlaceOrderForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCustomerIdKeyReleased
 
     private void resetForm() {
-        txtOrderId.setText(generateOrderId());
+        txtOrderId.setText(OrderController.generateOrderId());
         txtCustomerId.setText("");
         txtCustomerName.setText("");
         txtCustomerName.setEditable(true);
         txtQty.setText("");
         txtNetTotal.setText("");
-    }
-
-    public String generateOrderId() {
-        int lastOrderIdNum = 0;
-        try {
-            Scanner scanner = new Scanner(new File("iHungry_db.txt"));
-            String line = null;
-            while (scanner.hasNext()) {
-                line = scanner.nextLine();
-            }
-            if (line != null) {
-                lastOrderIdNum = Integer.parseInt(line.substring(1, 4));
-            }
-
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
-        return String.format("O%03d", lastOrderIdNum + 1);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -13,15 +13,14 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.Order;
-import util.RoundedButton;
+import util.OrderList;
+import util.RoundedJButton;
 
 /**
  *
  * @author Sachintha
  */
 public class ProcessingOrdersForm extends javax.swing.JFrame {
-    
-    private final OrderController orderController;
 
     /**
      * Creates new form PlaceOrderForm
@@ -30,9 +29,8 @@ public class ProcessingOrdersForm extends javax.swing.JFrame {
     public ProcessingOrdersForm() {
         initComponents();
         setLocationRelativeTo(null);
-        orderController = new OrderController();
 
-        RoundedButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
 
         JTableHeader header = tblMain.getTableHeader();
 
@@ -55,13 +53,11 @@ public class ProcessingOrdersForm extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tblMain.getModel();
         model.setRowCount(0);
 
-        Order[] orders = orderController.getOrdersAsArray();
+        OrderList orders = OrderController.getOrdersByStatus(Order.getOrderStatus(0));
 
-        for (int i = 0; i < orders.length; i++) {
-            if (orders[i].getStatus().equals(Order.getOrderStatus(0))) {
-                Object[] rowData = {orders[i].getId(), orders[i].getCustomerId(), orders[i].getCustomerName(), orders[i].getQuantity(), String.format("%.2f", orders[i].getAmount())};
+        for (Order order : orders.toArray()) {
+                Object[] rowData = {order.getId(), order.getCustomerId(), order.getCustomerName(), order.getQuantity(), String.format("%.2f", order.getAmount())};
                 model.addRow(rowData);
-            }
         }
         
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
