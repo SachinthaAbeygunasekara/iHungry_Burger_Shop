@@ -6,6 +6,9 @@ package view;
 
 import controller.OrderController;
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 import util.RoundedButton;
 import util.RoundedJTextFiled;
@@ -17,18 +20,19 @@ import model.Order;
  */
 public class PlaceOrderForm extends javax.swing.JFrame {
 
-    private OrderController orderController;
+    private Order[] orderArray;
+    private final OrderController orderController;
 
+    //private OrderController orderController;
     /**
      * Creates new form PlaceOrderForm
      *
-     * @param orderController
      */
-    public PlaceOrderForm(OrderController orderController) {
+    public PlaceOrderForm() {
         initComponents();
         setLocationRelativeTo(null);
-        this.orderController = orderController;
-
+        orderController = new OrderController();
+        
         RoundedButton.makeButtonRounded(btnPlaceOrder, 40, new Color(1, 177, 59), Color.WHITE);
         RoundedButton.makeButtonRounded(btnBackToHome, 40, new Color(208, 73, 70), Color.WHITE);
         RoundedButton.makeButtonRounded(btnCancel, 40, new Color(208, 73, 70), Color.WHITE);
@@ -36,9 +40,7 @@ public class PlaceOrderForm extends javax.swing.JFrame {
         RoundedJTextFiled.makeTextFieldRounded(txtQty, 15, Color.WHITE, Color.GRAY);
         RoundedJTextFiled.makeTextFieldRounded(txtCustomerName, 15, Color.WHITE, Color.GRAY);
 
-        txtOrderId.setText(orderController.generateOrderId());
-//        txtCustomerId.setText(orderController.generateCustomerId());
-
+        txtOrderId.setText(generateOrderId());
     }
 
     /**
@@ -318,13 +320,17 @@ public class PlaceOrderForm extends javax.swing.JFrame {
 
         double amount = Double.parseDouble(txtNetTotal.getText());
 
-        Order order = new Order(orderId, customerId, customerName, qty, amount, orderController.getOrderStatus(0));
-        if (orderController.addOrder(order)) {
-            JOptionPane.showMessageDialog(this, "Order Added Successfully");
-            resetForm();
+        int response = JOptionPane.showConfirmDialog(this, "Do you want to add this order?", "New Order", JOptionPane.YES_NO_OPTION);
+        if (response == JOptionPane.YES_OPTION) {
+            Order order = new Order(orderId, customerId, customerName, qty, amount, Order.getOrderStatus(0));
+              orderController.addOrder(order);
         } else {
-            JOptionPane.showMessageDialog(this, "Order Not Added");
+            resetForm();
+            return;
         }
+        JOptionPane.showMessageDialog(this, "Order Added Successfully");
+        resetForm();
+
 
     }//GEN-LAST:event_btnPlaceOrderActionPerformed
 
@@ -355,14 +361,15 @@ public class PlaceOrderForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCustomerNameKeyReleased
 
     private void txtCustomerIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCustomerIdKeyReleased
+
         String customerId = txtCustomerId.getText();
         String customerName = "";
 
-        Order[] orderArray = orderController.getAllOrders();
+        orderArray = orderController.getOrdersAsArray();
+
         for (int i = 0; i < orderArray.length; i++) {
             if (orderArray[i].getCustomerId().equals(customerId)) {
                 customerName = orderArray[i].getCustomerName();
-                break;
             }
         }
 
@@ -378,12 +385,30 @@ public class PlaceOrderForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCustomerIdKeyReleased
 
     private void resetForm() {
-        txtOrderId.setText(orderController.generateOrderId());
+        txtOrderId.setText(generateOrderId());
         txtCustomerId.setText("");
         txtCustomerName.setText("");
         txtCustomerName.setEditable(true);
         txtQty.setText("");
         txtNetTotal.setText("");
+    }
+
+    public String generateOrderId() {
+        int lastOrderIdNum = 0;
+        try {
+            Scanner scanner = new Scanner(new File("iHungry_db.txt"));
+            String line = null;
+            while (scanner.hasNext()) {
+                line = scanner.nextLine();
+            }
+            if (line != null) {
+                lastOrderIdNum = Integer.parseInt(line.substring(1, 4));
+            }
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+        return String.format("O%03d", lastOrderIdNum + 1);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

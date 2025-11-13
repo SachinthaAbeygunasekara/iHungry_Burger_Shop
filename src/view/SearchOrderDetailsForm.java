@@ -16,18 +16,17 @@ import util.RoundedJTextFiled;
  */
 public class SearchOrderDetailsForm extends javax.swing.JFrame {
 
-    private OrderController orderController;
     private Order order;
+    private final OrderController orderController;
 
     /**
      * Creates new form PlaceOrderForm
      *
-     * @param orderController
      */
-    public SearchOrderDetailsForm(OrderController orderController) {
+    public SearchOrderDetailsForm() {
         initComponents();
         setLocationRelativeTo(null);
-        this.orderController = orderController;
+        orderController = new OrderController();
 
         RoundedButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
         RoundedJTextFiled.makeTextFieldRounded(txtOrderId, 15, Color.WHITE, Color.GRAY);
@@ -233,9 +232,15 @@ public class SearchOrderDetailsForm extends javax.swing.JFrame {
     }// GEN-LAST:event_btnUpdateOrderActionPerformed
 
     private void txtOrderIdKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtOrderIdKeyReleased
+        order = null;
         String orderId = txtOrderId.getText();
 
-        order = orderController.searchOrder(orderId);
+        for (Order o : orderController.getOrdersAsArray()) {
+            if (o.getId().equals(orderId)) {
+                order = o;
+                break;
+            }
+        }
 
         if (order != null) {
             txtCustomerId.setText(order.getCustomerId());

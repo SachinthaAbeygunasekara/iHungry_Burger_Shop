@@ -8,6 +8,8 @@ import controller.OrderController;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import model.Order;
+import util.OrderFileHandler;
+import util.OrderList;
 import util.RoundedButton;
 import util.RoundedJTextFiled;
 import util.RoundedJComboBox;
@@ -18,18 +20,19 @@ import util.RoundedJComboBox;
  */
 public class UpdateOrderForm extends javax.swing.JFrame {
 
-    private OrderController orderController;
     private Order order;
+    private OrderList orderList;
+    int index = 0;
+    private final OrderController orderController;
 
     /**
      * Creates new form PlaceOrderForm
      *
-     * @param orderController
      */
-    public UpdateOrderForm(OrderController orderController) {
+    public UpdateOrderForm() {
         initComponents();
         setLocationRelativeTo(null);
-        this.orderController = orderController;
+        orderController = new OrderController();
 
         RoundedButton.makeButtonRounded(btnUpdateOrder, 40, new Color(1, 177, 59), Color.WHITE);
         RoundedButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
@@ -269,7 +272,7 @@ public class UpdateOrderForm extends javax.swing.JFrame {
     }// GEN-LAST:event_btnBackActionPerformed
 
     private void btnUpdateOrderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUpdateOrderActionPerformed
-        if (order != null) {
+        if (order != null && index != 0) {
             int newQty = Integer.parseInt(txtQty.getText());
             String newStatus = (String) cmbStatus.getSelectedItem();
 
@@ -286,12 +289,11 @@ public class UpdateOrderForm extends javax.swing.JFrame {
                     order.setStatus(newStatus);
                 }
 
-                if (orderController.updateOrder(order)) {
+                if (orderController.updateOrder(index ,order, orderList)) {
                     JOptionPane.showMessageDialog(this, "Order Successfully Updated..!");
                 } else {
                     JOptionPane.showMessageDialog(this, "Something went wrong. Order Not Updated..!");
                 }
-
                 resetForm(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Nothing Updated. Please update the Quantity or Status and try again...");
@@ -317,11 +319,21 @@ public class UpdateOrderForm extends javax.swing.JFrame {
 
     private void txtOrderIdKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtOrderIdKeyReleased
 
+        order = null;
         cmbStatus.enable();
+        txtQty.setEditable(true);
 
         String orderId = txtOrderId.getText();
 
-        order = orderController.searchOrder(orderId);
+        orderList = orderController.getAllOrders();
+        Order[] orderArray = orderController.getOrdersAsArray();
+        for (int i = 0; i < orderArray.length; i++) {
+            if (orderArray[i].getId().equals(orderId)) {
+                order = orderArray[i];
+                index = i;
+                break;
+            }
+        }
 
         if (order != null) {
             int index = 0;

@@ -4,7 +4,6 @@
  */
 package view;
 
-import controller.OrderController;
 import javax.swing.*;
 import java.awt.*;
 import util.RoundedButton;
@@ -15,7 +14,6 @@ import util.RoundedButton;
  */
 public class SearchForm extends javax.swing.JFrame {
 
-    private OrderController orderController;
     private SearchBestCustomerForm searchBestCustomerForm;
     private SearchOrderDetailsForm searchOrderDetailsForm;
     private SearchCustomerForm searchCustomerForm;
@@ -23,12 +21,10 @@ public class SearchForm extends javax.swing.JFrame {
     /**
      * Creates new form HomePageForm
      *
-     * @param orderController
      */
-    public SearchForm(OrderController orderController) {
+    public SearchForm() {
         initComponents();
         setLocationRelativeTo(null);
-        this.orderController = orderController;
 
         setScaledImageToLabel(lblLogo, "/images/logo.png");
 
@@ -204,7 +200,7 @@ public class SearchForm extends javax.swing.JFrame {
 
     private void btnSearchBestCustomerActionPerformed(java.awt.event.ActionEvent evt) {
         if (searchBestCustomerForm == null || !searchBestCustomerForm.isDisplayable()) {
-            searchBestCustomerForm = new SearchBestCustomerForm(orderController);
+            searchBestCustomerForm = new SearchBestCustomerForm();
             searchBestCustomerForm.setVisible(true);
         } else {
             searchBestCustomerForm.toFront();
@@ -213,7 +209,7 @@ public class SearchForm extends javax.swing.JFrame {
 
     private void btnSearchOrderActionPerformed(java.awt.event.ActionEvent evt) {
         if (searchOrderDetailsForm == null || !searchOrderDetailsForm.isDisplayable()) {
-            searchOrderDetailsForm = new SearchOrderDetailsForm(orderController);
+            searchOrderDetailsForm = new SearchOrderDetailsForm();
             searchOrderDetailsForm.setVisible(true);
         } else {
             searchOrderDetailsForm.toFront();
@@ -222,7 +218,7 @@ public class SearchForm extends javax.swing.JFrame {
 
     private void btnSearchCustomerActionPerformed(java.awt.event.ActionEvent evt) {
         if (searchCustomerForm == null || !searchCustomerForm.isDisplayable()) {
-            searchCustomerForm = new SearchCustomerForm(orderController);
+            searchCustomerForm = new SearchCustomerForm();
             searchCustomerForm.setVisible(true);
         } else {
             searchCustomerForm.toFront();

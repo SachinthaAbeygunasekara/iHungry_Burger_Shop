@@ -4,7 +4,6 @@
  */
 package view;
 
-import controller.OrderController;
 import javax.swing.*;
 import java.awt.*;
 import util.RoundedButton;
@@ -15,7 +14,7 @@ import util.RoundedButton;
  */
 public class ViewOrdersForm extends javax.swing.JFrame {
 
-    private OrderController orderController;
+
     private DeliveredOrdersForm deliveredOrdersForm;
     private ProcessingOrdersForm processingOrdersForm;
     private CancelledOrdersForm cancelledOrdersForm;
@@ -23,12 +22,11 @@ public class ViewOrdersForm extends javax.swing.JFrame {
     /**
      * Creates new form HomePageForm
      *
-     * @param orderController
      */
-    public ViewOrdersForm(OrderController orderController) {
+    public ViewOrdersForm() {
         initComponents();
         setLocationRelativeTo(null);
-        this.orderController = orderController;
+
 
         setScaledImageToLabel(lblLogo, "/images/logo.png");
 
@@ -204,7 +202,7 @@ public class ViewOrdersForm extends javax.swing.JFrame {
 
     private void btnDeliveredOrdersActionPerformed(java.awt.event.ActionEvent evt) {
         if (deliveredOrdersForm == null || !deliveredOrdersForm.isDisplayable()) {
-            deliveredOrdersForm = new DeliveredOrdersForm(orderController);
+            deliveredOrdersForm = new DeliveredOrdersForm();
             deliveredOrdersForm.setVisible(true);
         } else {
             deliveredOrdersForm.toFront();
@@ -213,7 +211,7 @@ public class ViewOrdersForm extends javax.swing.JFrame {
 
     private void btnProcessingOrdersActionPerformed(java.awt.event.ActionEvent evt) {
         if (processingOrdersForm == null || !processingOrdersForm.isDisplayable()) {
-            processingOrdersForm = new ProcessingOrdersForm(orderController);
+            processingOrdersForm = new ProcessingOrdersForm();
             processingOrdersForm.setVisible(true);
         } else {
             processingOrdersForm.toFront();
@@ -222,7 +220,7 @@ public class ViewOrdersForm extends javax.swing.JFrame {
 
     private void btnCanceledOrdersActionPerformed(java.awt.event.ActionEvent evt) {
         if (cancelledOrdersForm == null || !cancelledOrdersForm.isDisplayable()) {
-            cancelledOrdersForm = new CancelledOrdersForm(orderController);
+            cancelledOrdersForm = new CancelledOrdersForm();
             cancelledOrdersForm.setVisible(true);
         } else {
             cancelledOrdersForm.toFront();
