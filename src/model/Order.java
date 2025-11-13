@@ -81,7 +81,7 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
     public static String getOrderStatus(int orderStatus) {
         String status = "";
         switch (orderStatus) {
@@ -98,4 +98,12 @@ public class Order {
         return status;
     }
 
+    @Override
+    public String toString() {
+        return id + "," + customerId + "," + customerName + "," + quantity + "," + amount + "," + status;
+    }
+
+    public boolean equals(Order order) {
+        return order.getId().equalsIgnoreCase(id);
+    }
 }

@@ -6,7 +6,7 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import util.RoundedButton;
+import util.RoundedJButton;
 
 /**
  *
@@ -35,10 +35,10 @@ public class SearchForm extends javax.swing.JFrame {
             }
         });
 
-        RoundedButton.makeButtonRounded(btnSearchBestCustomer, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnSearchOrder, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnSearchCustomer, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnExit, 35, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnSearchBestCustomer, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnSearchOrder, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnSearchCustomer, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnExit, 35, new Color(208, 73, 70), Color.WHITE);
 
     }
 

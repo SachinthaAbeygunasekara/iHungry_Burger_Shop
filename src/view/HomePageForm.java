@@ -6,7 +6,7 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import util.RoundedButton;
+import util.RoundedJButton;
 
 /**
  *
@@ -35,11 +35,11 @@ public class HomePageForm extends javax.swing.JFrame {
             }
         });
 
-        RoundedButton.makeButtonRounded(btnPlaceOrder, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnSearch, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnViewOrders, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnUpdateOrder, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnExit, 35, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnPlaceOrder, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnSearch, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnViewOrders, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnUpdateOrder, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnExit, 35, new Color(208, 73, 70), Color.WHITE);
 
     }
 

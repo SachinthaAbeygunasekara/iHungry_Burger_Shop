@@ -6,7 +6,7 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import util.RoundedButton;
+import util.RoundedJButton;
 
 /**
  *
@@ -37,10 +37,10 @@ public class ViewOrdersForm extends javax.swing.JFrame {
             }
         });
 
-        RoundedButton.makeButtonRounded(btnDeliveredOrders, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnProcessingOrders, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnCanceledOrders, 40, new Color(208, 73, 70), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnExit, 35, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnDeliveredOrders, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnProcessingOrders, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnCanceledOrders, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnExit, 35, new Color(208, 73, 70), Color.WHITE);
 
     }
 

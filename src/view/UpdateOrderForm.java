@@ -8,9 +8,7 @@ import controller.OrderController;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import model.Order;
-import util.OrderFileHandler;
-import util.OrderList;
-import util.RoundedButton;
+import util.RoundedJButton;
 import util.RoundedJTextFiled;
 import util.RoundedJComboBox;
 
@@ -21,9 +19,6 @@ import util.RoundedJComboBox;
 public class UpdateOrderForm extends javax.swing.JFrame {
 
     private Order order;
-    private OrderList orderList;
-    int index = 0;
-    private final OrderController orderController;
 
     /**
      * Creates new form PlaceOrderForm
@@ -32,10 +27,9 @@ public class UpdateOrderForm extends javax.swing.JFrame {
     public UpdateOrderForm() {
         initComponents();
         setLocationRelativeTo(null);
-        orderController = new OrderController();
 
-        RoundedButton.makeButtonRounded(btnUpdateOrder, 40, new Color(1, 177, 59), Color.WHITE);
-        RoundedButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnUpdateOrder, 40, new Color(1, 177, 59), Color.WHITE);
+        RoundedJButton.makeButtonRounded(btnBack, 40, new Color(208, 73, 70), Color.WHITE);
         RoundedJTextFiled.makeTextFieldRounded(txtCustomerId, 15, Color.LIGHT_GRAY, Color.GRAY);
         RoundedJTextFiled.makeTextFieldRounded(txtQty, 15, Color.WHITE, Color.GRAY);
         RoundedJTextFiled.makeTextFieldRounded(txtOrderId, 15, Color.WHITE, Color.GRAY);
@@ -272,7 +266,7 @@ public class UpdateOrderForm extends javax.swing.JFrame {
     }// GEN-LAST:event_btnBackActionPerformed
 
     private void btnUpdateOrderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUpdateOrderActionPerformed
-        if (order != null && index != 0) {
+        if (order != null) {
             int newQty = Integer.parseInt(txtQty.getText());
             String newStatus = (String) cmbStatus.getSelectedItem();
 
@@ -289,7 +283,7 @@ public class UpdateOrderForm extends javax.swing.JFrame {
                     order.setStatus(newStatus);
                 }
 
-                if (orderController.updateOrder(index ,order, orderList)) {
+                if (OrderController.updateOrder(order)) {
                     JOptionPane.showMessageDialog(this, "Order Successfully Updated..!");
                 } else {
                     JOptionPane.showMessageDialog(this, "Something went wrong. Order Not Updated..!");
@@ -324,16 +318,7 @@ public class UpdateOrderForm extends javax.swing.JFrame {
         txtQty.setEditable(true);
 
         String orderId = txtOrderId.getText();
-
-        orderList = orderController.getAllOrders();
-        Order[] orderArray = orderController.getOrdersAsArray();
-        for (int i = 0; i < orderArray.length; i++) {
-            if (orderArray[i].getId().equals(orderId)) {
-                order = orderArray[i];
-                index = i;
-                break;
-            }
-        }
+        order = OrderController.serachOrder(orderId);
 
         if (order != null) {
             int index = 0;
