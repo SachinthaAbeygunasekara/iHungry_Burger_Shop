@@ -8,8 +8,6 @@
 iHungry Burger Shop Management System is a Java Swing application built using the **MVC design pattern**.  
 It allows the burger shop to efficiently manage customer orders, update order details, search customer & order history, and view categorized order lists.
 
-This project follows the coursework specification provided by iCET and implements all required validations and functionalities.
-
 ---
 
 ## 🛠️ Technologies Used  
@@ -100,7 +98,7 @@ The application reads and writes using structured text records.
 ---
 
 ## 📸 Screenshots  
-<img width="834" height="535" alt="image" src="https://github.com/user-attachments/assets/cae0ed50-d421-4dd9-b5fd-30f752d821d7" />
+<img width="534" height="235" alt="image" src="https://github.com/user-attachments/assets/cae0ed50-d421-4dd9-b5fd-30f752d821d7" />
 <img width="853" height="578" alt="image" src="https://github.com/user-attachments/assets/dbe64b18-a5d8-484d-a7b4-ba9a7954f8f5" />
 <img width="833" height="537" alt="image" src="https://github.com/user-attachments/assets/ea4203d4-d4f1-42e1-a228-f4fbe2764d6b" />
 <img width="834" height="536" alt="image" src="https://github.com/user-attachments/assets/3909111d-e70f-4aa0-8b0f-d35a2e4031ef" />
